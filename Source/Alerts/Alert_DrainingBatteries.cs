@@ -10,6 +10,8 @@ namespace Power_Alerts.Alerts
 {
     class Alert_DrainingBatteries : Alert
     {
+        private int FirstTick = 0;
+
         enum BatteryState
         {
             Normal,
@@ -24,7 +26,12 @@ namespace Power_Alerts.Alerts
 
         private BatteryState GetBatteryState(PowerNet pn)
         {
-            if (pn.batteryComps.Count() > 0)
+            if (FirstTick == 0)
+            {
+                FirstTick = Find.TickManager.TicksGame;
+            }
+
+            if (Find.TickManager.TicksGame - FirstTick > 60 && pn.batteryComps.Count() > 0)
             {
                 float cegr = pn.CurrentEnergyGainRate();
                 float cse = pn.CurrentStoredEnergy();
@@ -56,6 +63,7 @@ namespace Power_Alerts.Alerts
         {
             this.defaultLabel = "PA_Alert_DrainingBatteries_Label".Translate();
             this.defaultPriority = AlertPriority.High;
+            FirstTick = Find.TickManager.TicksGame;
         }
 
         public override string GetExplanation()

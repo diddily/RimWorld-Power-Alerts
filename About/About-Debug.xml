@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Power Alerts - Dev Build</name>
-	<author>diddily</author>
-	<targetVersion>1.0.0</targetVersion>
-	<description>Adds alerts for when your power grid needs attention. 
-(This is the dev version of Power Alerts. The release version of About.xml is available for editing at About/About-Release.xml. Edits made on this file or on the temporary About/About.xml won't show up on the release version. Use VisualStudio to build a "Release" version of this mod when ready to upload your mod!)</description>
-	<url>https://steamcommunity.com/id/diddily/myworkshopfiles/?appid=294100</url>
+  <name>Power Alerts</name>
+  <author>diddily</author>
+  <supportedVersions>
+    <li>1.0</li>
+  </supportedVersions>
+  <description>
+    Adds alerts for when your power grid needs attention, including: Disconnected generators, batteries close to being empty, buildings at risk of short circuit and fueled generators almost out of fuel. Configuratable options included.
+   (This is the dev version of Power Alerts. The release version of About.xml is available for editing at About/About-Release.xml. Edits made on this file or on the temporary About/About.xml won't show up on the release version. Use VisualStudio to build a "Release" version of this mod when ready to upload your mod!)
+
+  &lt;color=orange&gt;&lt;b&gt;Dependencies &lt;/b&gt;&lt;/color&gt;
+    This mod depends on Hugslib. Load order should be: Hugslib -> Power Alerts.
+  </description>
+
+  <!--<url>https://steamcommunity.com/id/diddily/myworkshopfiles/?appid=294100</url>-->
 </ModMetaData>
