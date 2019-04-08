@@ -26,11 +26,6 @@ namespace Power_Alerts.Alerts
 
         private BatteryState GetBatteryState(PowerNet pn)
         {
-            if (FirstTick == 0)
-            {
-                FirstTick = Find.TickManager.TicksGame;
-            }
-
             if (Find.TickManager.TicksGame - FirstTick > 60 && pn.batteryComps.Count() > 0)
             {
                 float cegr = pn.CurrentEnergyGainRate();
@@ -63,7 +58,6 @@ namespace Power_Alerts.Alerts
         {
             this.defaultLabel = "PA_Alert_DrainingBatteries_Label".Translate();
             this.defaultPriority = AlertPriority.High;
-            FirstTick = Find.TickManager.TicksGame;
         }
 
         public override string GetExplanation()
@@ -89,6 +83,11 @@ namespace Power_Alerts.Alerts
 
         public override AlertReport GetReport()
         {
+            if (FirstTick == 0)
+            {
+                FirstTick = Find.TickManager.TicksGame;
+            }
+
             if (!Power_Alerts.drainingBatteriesEnabled)
             {
                 return false;

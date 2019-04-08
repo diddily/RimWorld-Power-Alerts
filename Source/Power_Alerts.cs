@@ -22,6 +22,13 @@ namespace Power_Alerts
 
         internal static SettingHandle<bool> shortCircuitRiskEnabled;
 
+        internal static SettingHandle<bool> wastingFuelGeneratorEnabled;
+
+        internal static SettingHandle<bool> obstructedSolarEnabled;
+        internal static SettingHandle<bool> obstructedWindEnabled;
+        internal static SettingHandle<bool> obstructedWaterEnabled;
+
+
 
         public override string ModIdentifier
         {
@@ -46,6 +53,12 @@ namespace Power_Alerts
             drainingBatteriesThresholdSeconds = Settings.GetHandle<float>("drainingBatteriesThresholdSeconds", "PA_DrainingBatteriesThresholdSeconds_Title".Translate(), "PA_DrainingBatteriesThresholdSeconds_Description".Translate(), 60.0f, Validators.FloatRangeValidator(0.0f, 6000.0f));
 
             shortCircuitRiskEnabled = Settings.GetHandle<bool>("shortCircuitRiskEnabled", "PA_ShortCircuitRiskEnabled_Title".Translate(), "PA_ShortCircuitRiskEnabled_Description".Translate(), true);
+
+            wastingFuelGeneratorEnabled = Settings.GetHandle<bool>("wastingFuelGeneratorEnabled", "PA_WastingFuelGeneratorEnabled_Title".Translate(), "PA_WastingFuelGeneratorEnabled_Description".Translate(), true);
+
+            obstructedSolarEnabled = Settings.GetHandle<bool>("obstructedSolarEnabled", "PA_ObstructedSolarEnabled_Title".Translate(), "PA_ObstructedSolarEnabled_Description".Translate(), true);
+            obstructedWindEnabled = Settings.GetHandle<bool>("obstructedWindEnabled", "PA_ObstructedWindEnabled_Title".Translate(), "PA_ObstructedWindEnabled_Description".Translate(), true);
+            obstructedWaterEnabled = Settings.GetHandle<bool>("obstructedWaterEnabled", "PA_ObstructedWaterEnabled_Title".Translate(), "PA_ObstructedWaterEnabled_Description".Translate(), true);
         }
 
     }

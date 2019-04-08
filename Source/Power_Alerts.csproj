@@ -33,15 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\workshop\content\294100\818773962\Assemblies\0Harmony.dll</HintPath>
+      <HintPath>..\..\HugsLib\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>F:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="HugsLib">
-      <HintPath>..\..\..\..\..\workshop\content\294100\818773962\Assemblies\HugsLib.dll</HintPath>
+      <HintPath>..\..\HugsLib\Assemblies\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -51,7 +51,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>F:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <None Include="..\About\About-Debug.xml">
@@ -67,10 +67,14 @@
       <Link>About\Preview.png</Link>
     </None>
     <None Include="..\Defs\**" />
-    <None Include="..\Languages\English\Keyed\Power_Alerts_keys.xml" />
+    <None Include="..\Languages\English\Keyed\Power_Alerts_keys.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Patches\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alerts\Alert_ObstructedGenerator.cs" />
+    <Compile Include="Alerts\Alert_GeneratorWastingFuel.cs" />
     <Compile Include="Alerts\Alert_ShortCircuitRisk.cs" />
     <Compile Include="Alerts\Alert_DrainingBatteries.cs" />
     <Compile Include="Alerts\Alert_GeneratorFuelLow.cs" />
