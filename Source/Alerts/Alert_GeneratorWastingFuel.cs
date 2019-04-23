@@ -22,6 +22,28 @@ namespace Power_Alerts.Alerts
         static float powerCompAlertOnToOffThreshold = 1.05f;
         static float powerCompAlertOffToOnThreshold = 1.25f;
 
+        private float GetScheduledPowerDelta(CompSchedule scheduleComp)
+        {
+            CompFlickable compFlickable = scheduleComp.parent.TryGetComp<CompFlickable>();
+            if (compFlickable == null || compFlickable.SwitchIsOn)
+            {
+                if (!scheduleComp.parent.IsBrokenDown())
+                {
+                    CompPowerTrader cpt = scheduleComp.parent.GetComp<CompPowerTrader>();
+                    float powerOutput = cpt.PowerOn ? cpt.PowerOutput : 0.0f;
+                    if (scheduleComp.Props.startTime <= scheduleComp.Props.endTime)
+                    {
+                        return (scheduleComp.Props.endTime - scheduleComp.Props.startTime) * cpt.Props.basePowerConsumption + powerOutput;
+                    }
+                    else
+                    {
+                        return (1.0f - scheduleComp.Props.startTime + scheduleComp.Props.endTime) * cpt.Props.basePowerConsumption + powerOutput;
+                    }
+                }
+            }
+            return 0.0f;
+        }
+
         private IEnumerable<Building> GetWastingFuelGenerators()
         {
             prevAlertThings.Clear();
@@ -50,7 +72,9 @@ namespace Power_Alerts.Alerts
                 glow *= 0.5f;
             }
             float averageWind = 0.55f;
-            foreach (PowerNet powerNet in map.powerNetManager.AllNetsListForReading.Where(pn => pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.Props.basePowerConsumption > 0.0f)))
+            foreach (PowerNet powerNet in map.powerNetManager.AllNetsListForReading.Where(pn => 
+                (pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.PowerOn && pc.Props.basePowerConsumption > 0.0f)) && 
+                pn.powerComps.Any(pc => pc != null && pc.PowerOn && pc.parent.GetComp<CompRefuelable>() != null)))
             {
                 if (powerNet.batteryComps.Count() > 0)
                 {
@@ -72,18 +96,18 @@ namespace Power_Alerts.Alerts
                         }
                     }
                 }
-                IEnumerable<CompPowerTrader> generators = powerNet.powerComps.Where(pc => pc != null && pc.PowerOn && pc.Props.basePowerConsumption < 0.0f);
-                IEnumerable<CompPowerPlantSolar> solarGens = generators.OfType<CompPowerPlantSolar>();
-                IEnumerable<CompPowerPlantWind> windGens = generators.OfType<CompPowerPlantWind>();
-                float deltaPower = solarGens.Sum(pc => glow * 1700 - pc.PowerOutput) + windGens.Sum(pc => averageWind * -pc.Props.basePowerConsumption - pc.PowerOutput);
-                float excess = powerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick + deltaPower;
                 
+                float deltaPower = powerNet.powerComps.OfType<CompPowerPlantSolar>().Where(pc => pc.PowerOn).Sum(pc => glow * 1700 - pc.PowerOutput) +
+                    powerNet.powerComps.OfType<CompPowerPlantWind>().Sum(pc => averageWind * -pc.Props.basePowerConsumption - pc.PowerOutput) -
+                    powerNet.powerComps.Select(pc => pc.parent.GetComp<CompSchedule>()).Where(cs => cs != null).Sum(cs => GetScheduledPowerDelta(cs));
+                
+                float excess = powerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick + deltaPower;
                 if (excess > 0)
                 {
-                    foreach (CompPowerTrader cpt in generators)
+                    foreach (CompPowerTrader cpt in powerNet.powerComps.Where(pc => pc != null && pc.PowerOn))
                     {
                         CompRefuelable cr = cpt.parent.GetComp<CompRefuelable>();
-                        if (cr != null)
+                        if (cpt.Props.basePowerConsumption < 0.0f && cr != null)
                         {
                             if (prevAlertThings.Contains(cpt.parent as Building))
                             {
