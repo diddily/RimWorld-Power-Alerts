@@ -1,6 +1,5 @@
 ﻿
 using HugsLib;
-using HugsLib.Utils;
 using HugsLib.Settings;
 using Verse;
 using RimWorld;

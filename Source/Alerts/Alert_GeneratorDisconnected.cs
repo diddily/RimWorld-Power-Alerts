@@ -20,7 +20,7 @@ namespace Power_Alerts.Alerts
             this.defaultPriority = AlertPriority.High;
         }
         
-        public override string GetExplanation()
+        public override TaggedString GetExplanation()
         {
             int count = GetDisconnectedGenerators().Count();
             if (count == 1)
@@ -40,7 +40,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
 
-            return AlertReport.CulpritsAre(GetDisconnectedGenerators());
+            return AlertReport.CulpritsAre(GetDisconnectedGenerators().Cast<Thing>().ToList());
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Power_Alerts.Alerts
             this.defaultPriority = AlertPriority.High;
         }
 
-        public override string GetExplanation()
+        public override TaggedString GetExplanation()
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach (PowerNet pn in Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading)
@@ -93,7 +93,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
 
-            return AlertReport.CulpritsAre(GetDrainingBatteries());
+            return AlertReport.CulpritsAre(GetDrainingBatteries().Cast<Thing>().ToList());
         }
     }
 }

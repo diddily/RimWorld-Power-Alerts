@@ -22,7 +22,7 @@ namespace Power_Alerts.Alerts
             this.defaultPriority = AlertPriority.High;
         }
 
-        public override string GetExplanation()
+        public override TaggedString GetExplanation()
         {
             int count = GetAtRiskBuildings().Count();
             if (count == 1)
@@ -42,7 +42,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
 
-            return AlertReport.CulpritsAre(GetAtRiskBuildings());
+            return AlertReport.CulpritsAre(GetAtRiskBuildings().Cast<Thing>().ToList());
         }
     }
 }

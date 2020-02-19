@@ -25,7 +25,7 @@ namespace Power_Alerts.Alerts
             this.defaultPriority = AlertPriority.High;
         }
         
-        public override string GetExplanation()
+        public override TaggedString GetExplanation()
         {
             StringBuilder stringBuilder = new StringBuilder();
             foreach (CompRefuelable cr in GetLowFuelGenerators().Select(pc => pc.parent.GetComp<CompRefuelable>()))
@@ -50,7 +50,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
 
-            return AlertReport.CulpritsAre(GetLowFuelGenerators().Select(pc => pc.parent as Building));
+            return AlertReport.CulpritsAre(GetLowFuelGenerators().Select(pc => pc.parent as Building).Cast<Thing>().ToList());
         }
     }
 }

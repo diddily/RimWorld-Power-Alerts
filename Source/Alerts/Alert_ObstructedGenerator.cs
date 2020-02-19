@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -73,7 +73,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
 
-            return AlertReport.CulpritsAre(GetObstructedGenerators());
+            return AlertReport.CulpritsAre(GetObstructedGenerators().Cast<Thing>().ToList());
         }
     }
 }

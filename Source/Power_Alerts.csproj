@@ -9,39 +9,46 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Power_Alerts</RootNamespace>
     <AssemblyName>Power_Alerts</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
+    <OutputPath>..\v1.1\Assemblies\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\PowerAlerts - Release\Assemblies\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\HugsLib\Assemblies\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HugsLib\v1.1\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>F:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="HugsLib">
-      <HintPath>..\..\HugsLib\Assemblies\HugsLib.dll</HintPath>
+    <Reference Include="HugsLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HugsLib\v1.1\Assemblies\HugsLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -50,10 +57,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>F:\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <None Include="..\About\About-Debug.xml">
       <Link>About\About-Debug.xml</Link>
     </None>
@@ -71,6 +74,14 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="..\Patches\**" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alerts\Alert_ObstructedGenerator.cs" />
@@ -93,19 +104,25 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug -quicktest|AnyCPU' ">
     <StartArguments>-quicktest</StartArguments>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>..\v1.1\Assemblies\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release -quicktest|AnyCPU' ">
     <StartArguments>-quicktest</StartArguments>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>..\v1.1\Assemblies\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>echo F|xcopy "$(ProjectDir)..\About\About-$(ConfigurationName).xml" "$(TargetDir)..\About\About.xml" /C /Y /K /Q /D
-IF /I "$(ConfigurationName)" == "Release"; echo F|xcopy "$(ProjectDir)..\About\Preview.png" "$(TargetDir)..\About\Preview.png" /S /C /Y /K /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Assemblies"; xcopy "$(ProjectDir)..\Assemblies" "$(TargetDir)..\Assemblies" /S /C /Y /K /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Defs"; xcopy "$(ProjectDir)..\Defs" "$(TargetDir)..\Defs" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Patches"; xcopy "$(ProjectDir)..\Patches" "$(TargetDir)..\Patches" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Languages"; xcopy "$(ProjectDir)..\Languages" "$(TargetDir)..\Languages" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Sounds";  xcopy "$(ProjectDir)..\Sounds" "$(TargetDir)..\Sounds" /S /C /Y /K  /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Textures";  xcopy "$(ProjectDir)..\Textures" "$(TargetDir)..\Textures" /S /C /Y /K /I /Q /D
-IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\LICENSE"; copy "$(ProjectDir)..\LICENSE" "$(TargetDir)..\LICENSE" /Y</PostBuildEvent>
+    <PostBuildEvent>echo F|xcopy "$(ProjectDir)..\About\About-$(ConfigurationName).xml" "$(TargetDir)..\..\About\About.xml" /C /Y /K /Q /D
+echo F|xcopy "$(ProjectDir)..\LoadFolders.xml" "$(TargetDir)..\..\LoadFolders.xml" /C /Y /K /Q /D
+IF /I "$(ConfigurationName)" == "Release"; echo F|xcopy "$(ProjectDir)..\About\Preview.png" "$(TargetDir)..\..\About\Preview.png" /S /C /Y /K /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Assemblies"; xcopy "$(ProjectDir)..\Assemblies" "$(TargetDir)..\..\Assemblies" /S /C /Y /K /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\v1.1"; xcopy "$(ProjectDir)..\v1.1" "$(TargetDir)..\..\v1.1" /S /C /Y /K /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Defs"; xcopy "$(ProjectDir)..\Defs" "$(TargetDir)..\..\Defs" /S /C /Y /K  /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Patches"; xcopy "$(ProjectDir)..\Patches" "$(TargetDir)..\..\Patches" /S /C /Y /K  /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Languages"; xcopy "$(ProjectDir)..\Languages" "$(TargetDir)..\..\Languages" /S /C /Y /K  /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Sounds";  xcopy "$(ProjectDir)..\Sounds" "$(TargetDir)..\..\Sounds" /S /C /Y /K  /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\Textures";  xcopy "$(ProjectDir)..\Textures" "$(TargetDir)..\..\Textures" /S /C /Y /K /I /Q /D
+IF /I "$(ConfigurationName)" == "Release"; IF EXIST "$(ProjectDir)..\LICENSE"; copy "$(ProjectDir)..\LICENSE" "$(TargetDir)..\..\LICENSE" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
