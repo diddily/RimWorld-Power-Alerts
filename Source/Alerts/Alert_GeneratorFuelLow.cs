@@ -16,7 +16,7 @@ namespace Power_Alerts.Alerts
         
         private bool IsFuelLow(CompRefuelable cr)
         {
-            return cr != null && (!cr.HasFuel || (cr.Fuel / cr.Props.fuelConsumptionRate * 1000f) <= Power_Alerts.lowFuelGeneratorThresholdSeconds);
+            return cr != null && (cr.Props.fuelConsumptionRate > 0.0f && (!cr.HasFuel || (cr.Fuel / cr.Props.fuelConsumptionRate * 1000f) <= Power_Alerts.lowFuelGeneratorThresholdSeconds));
         }
 
         public Alert_GeneratorFuelLow()

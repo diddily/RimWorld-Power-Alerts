@@ -107,7 +107,7 @@ namespace Power_Alerts.Alerts
                     foreach (CompPowerTrader cpt in powerNet.powerComps.Where(pc => pc != null && pc.PowerOn))
                     {
                         CompRefuelable cr = cpt.parent.GetComp<CompRefuelable>();
-                        if (cpt.Props.basePowerConsumption < 0.0f && cr != null)
+                        if (cpt.Props.basePowerConsumption < 0.0f && cr != null && cr.Props.fuelConsumptionRate > 0.0f)
                         {
                             if (prevAlertThings.Contains(cpt.parent as Building))
                             {
