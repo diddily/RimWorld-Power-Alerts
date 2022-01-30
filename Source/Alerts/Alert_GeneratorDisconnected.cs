@@ -11,7 +11,7 @@ namespace Power_Alerts.Alerts
     {
         private IEnumerable<Building> GetDisconnectedGenerators()
         {
-            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => !pn.powerComps.Any(pc => pc.Props.basePowerConsumption > 0.0f) && !pn.transmitters.Any(t => t.parent.AllComps.Any(c => c is CompShipPart))).SelectMany(pn => pn.powerComps.Where(pc => pc.PowerOutput > 0.0f)).Select(pc => pc.parent as Building);
+            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => !pn.powerComps.Any(pc => pc.Props.basePowerConsumption > 0.0f) && !pn.transmitters.Any(t => t.parent.AllComps.Any(c => c is CompShipPart))).SelectMany(pn => pn.powerComps.Where(pc => pc.PowerOutput > 0.0f)).Select(pc => pc.parent as Building).Where(b => b.Faction.IsPlayer);
         }
 
         public Alert_GeneratorDisconnected()
