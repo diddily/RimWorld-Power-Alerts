@@ -56,7 +56,7 @@ namespace Power_Alerts.Alerts
 
         private IEnumerable<Building> GetObstructedGenerators()
         {
-            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.Props.basePowerConsumption > 0.0f)).SelectMany(pn => pn.powerComps).Where(pct => IsObstructedGenerator(pct)).Select(pct => pct.parent as Building).Where(b => b.Faction.IsPlayer);
+            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.Props.basePowerConsumption > 0.0f)).SelectMany(pn => pn.powerComps).Where(pct => IsObstructedGenerator(pct)).Select(pct => pct.parent as Building).Where(b => b.Faction?.IsPlayer ?? false);
         }
 
         public Alert_ObstructedGenerator()

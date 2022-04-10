@@ -11,7 +11,7 @@ namespace Power_Alerts.Alerts
     {
         private IEnumerable<CompPowerTrader> GetLowFuelGenerators()
         {
-            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.Props.basePowerConsumption > 0.0f)).SelectMany(pn => pn.powerComps.Where(pc => pc != null && pc.PowerOn && pc.Props.basePowerConsumption < 0.0f && pc.parent.Faction.IsPlayer && IsFuelLow(pc.parent.TryGetComp<CompRefuelable>())));
+            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.Props.basePowerConsumption > 0.0f)).SelectMany(pn => pn.powerComps.Where(pc => (pc?.parent?.Faction?.IsPlayer ?? false) && pc.PowerOn && pc.Props.basePowerConsumption < 0.0f && IsFuelLow(pc.parent.TryGetComp<CompRefuelable>())));
         }
         
         private bool IsFuelLow(CompRefuelable cr)

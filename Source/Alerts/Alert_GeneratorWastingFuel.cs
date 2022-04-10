@@ -147,7 +147,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
                 
-            return AlertReport.CulpritsAre(GetWastingFuelGenerators().Where(b => b.Faction.IsPlayer).Cast<Thing>().ToList());
+            return AlertReport.CulpritsAre(GetWastingFuelGenerators().Where(b => b.Faction?.IsPlayer ?? false).Cast<Thing>().ToList());
         }
     }
 }
