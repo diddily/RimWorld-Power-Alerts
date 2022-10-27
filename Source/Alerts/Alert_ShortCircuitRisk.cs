@@ -12,7 +12,7 @@ namespace Power_Alerts.Alerts
     {
         private IEnumerable<Building> GetAtRiskBuildings()
         {
-            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.SelectMany(pn => pn.powerComps.Cast<CompPower>().Union(pn.batteryComps.Cast<CompPower>())).Where(pc => pc.Props.shortCircuitInRain && ((pc is CompPowerTrader) && ((CompPowerTrader)pc).PowerOn)).Select(bc => bc.parent as Building).Where(b => b.Faction?.IsPlayer ?? false && !b.Map.roofGrid.Roofed(b.Position));
+            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.SelectMany(pn => pn.powerComps.Cast<CompPower>().Union(pn.batteryComps.Cast<CompPower>())).Where(pc => pc.Props.shortCircuitInRain && ((pc is CompPowerTrader) && ((CompPowerTrader)pc).PowerOn)).Select(bc => bc.parent as Building).Where(b => (b.Faction?.IsPlayer ?? false) && !b.Map.roofGrid.Roofed(b.Position));
         }
 
       

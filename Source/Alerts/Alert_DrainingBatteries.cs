@@ -21,7 +21,7 @@ namespace Power_Alerts.Alerts
 
         private IEnumerable<Building> GetDrainingBatteries()
         {
-            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => GetBatteryState(pn) != BatteryState.Normal).SelectMany(pn => pn.batteryComps).Select(bc => bc.parent as Building).Where(b => b.Faction?.IsPlayer ?? false);
+            return Find.Maps.FirstOrDefault(m => m.IsPlayerHome).powerNetManager.AllNetsListForReading.Where(pn => GetBatteryState(pn) != BatteryState.Normal).SelectMany(pn => pn.batteryComps).Select(bc => bc.parent as Building).Where(b => (b.Faction?.IsPlayer ?? false));
         }
 
         private BatteryState GetBatteryState(PowerNet pn)

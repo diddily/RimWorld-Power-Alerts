@@ -33,11 +33,11 @@ namespace Power_Alerts.Alerts
                     float powerOutput = cpt.PowerOn ? cpt.PowerOutput : 0.0f;
                     if (scheduleComp.Props.startTime <= scheduleComp.Props.endTime)
                     {
-                        return (scheduleComp.Props.endTime - scheduleComp.Props.startTime) * cpt.Props.basePowerConsumption + powerOutput;
+                        return (scheduleComp.Props.endTime - scheduleComp.Props.startTime) * cpt.Props.PowerConsumption + powerOutput;
                     }
                     else
                     {
-                        return (1.0f - scheduleComp.Props.startTime + scheduleComp.Props.endTime) * cpt.Props.basePowerConsumption + powerOutput;
+                        return (1.0f - scheduleComp.Props.startTime + scheduleComp.Props.endTime) * cpt.Props.PowerConsumption + powerOutput;
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace Power_Alerts.Alerts
             }
             float averageWind = 0.55f;
             foreach (PowerNet powerNet in map.powerNetManager.AllNetsListForReading.Where(pn => 
-                (pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.PowerOn && pc.Props.basePowerConsumption > 0.0f)) && 
+                (pn.batteryComps.Count() > 0 || pn.powerComps.Any(pc => pc != null && pc.PowerOn && pc.Props.PowerConsumption > 0.0f)) && 
                 pn.powerComps.Any(pc => pc != null && pc.PowerOn && pc.parent.GetComp<CompRefuelable>() != null)))
             {
                 if (powerNet.batteryComps.Count() > 0)
@@ -98,7 +98,7 @@ namespace Power_Alerts.Alerts
                 }
                 
                 float deltaPower = powerNet.powerComps.OfType<CompPowerPlantSolar>().Where(pc => pc.PowerOn).Sum(pc => glow * 1700 - pc.PowerOutput) +
-                    powerNet.powerComps.OfType<CompPowerPlantWind>().Sum(pc => averageWind * -pc.Props.basePowerConsumption - pc.PowerOutput) -
+                    powerNet.powerComps.OfType<CompPowerPlantWind>().Sum(pc => averageWind * -pc.Props.PowerConsumption - pc.PowerOutput) -
                     powerNet.powerComps.Select(pc => pc.parent.GetComp<CompSchedule>()).Where(cs => cs != null).Sum(cs => GetScheduledPowerDelta(cs));
                 
                 float excess = powerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick + deltaPower;
@@ -107,18 +107,18 @@ namespace Power_Alerts.Alerts
                     foreach (CompPowerTrader cpt in powerNet.powerComps.Where(pc => pc != null && pc.PowerOn))
                     {
                         CompRefuelable cr = cpt.parent.GetComp<CompRefuelable>();
-                        if (cpt.Props.basePowerConsumption < 0.0f && cr != null && cr.Props.fuelConsumptionRate > 0.0f)
+                        if (cpt.Props.PowerConsumption < 0.0f && cr != null && cr.Props.fuelConsumptionRate > 0.0f)
                         {
                             if (prevAlertThings.Contains(cpt.parent as Building))
                             {
-                                if (excess < -cpt.Props.basePowerConsumption * powerCompAlertOnToOffThreshold)
+                                if (excess < -cpt.Props.PowerConsumption * powerCompAlertOnToOffThreshold)
                                 {
                                     continue;
                                 }
                             }
                             else
                             {
-                                if(excess < -cpt.Props.basePowerConsumption * powerCompAlertOffToOnThreshold)
+                                if(excess < -cpt.Props.PowerConsumption * powerCompAlertOffToOnThreshold)
                                 {
                                     continue;
                                 }
@@ -147,7 +147,7 @@ namespace Power_Alerts.Alerts
                 return false;
             }
                 
-            return AlertReport.CulpritsAre(GetWastingFuelGenerators().Where(b => b.Faction?.IsPlayer ?? false).Cast<Thing>().ToList());
+            return AlertReport.CulpritsAre(GetWastingFuelGenerators().Where(b => (b.Faction?.IsPlayer ?? false)).Cast<Thing>().ToList());
         }
     }
 }
